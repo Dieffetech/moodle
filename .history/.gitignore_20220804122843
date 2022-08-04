@@ -55,4 +55,3 @@ moodle-plugin-ci.phar
 /admin/tool/componentlibrary/hugo/site/data/my-index.json
 .hugo_build.lock
 .phpcs.xml
-scorm_attachment/*
