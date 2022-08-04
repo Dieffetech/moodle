@@ -13,31 +13,31 @@ Aprire il file login/index.php e alla riga 222 circa ci dovrebbero essere queste
 ![](docs/image.002.png)
 
 Che vanno sostituite con queste:
+```
+// sets the username cookie
 
-`        `// sets the username cookie
+if (!empty($CFG->nolastloggedin)) {
 
-`        `if (!empty($CFG->nolastloggedin)) {
+// do not store last logged in user in cookie
 
-`            `// do not store last logged in user in cookie
+// auth plugins can temporarily override this from loginpage\_hook()
 
-`            `// auth plugins can temporarily override this from loginpage\_hook()
+// do not save $CFG->nolastloggedin in database!
 
-`            `// do not save $CFG->nolastloggedin in database!
+} else if (empty($CFG->rememberusername) or ($CFG->rememberusername == 2 and empty($frm->rememberusername))) {
 
-`        `} else if (empty($CFG->rememberusername) or ($CFG->rememberusername == 2 and empty($frm->rememberusername))) {
+// no permanent cookies, delete old one if exists
 
-`            `// no permanent cookies, delete old one if exists
+set\_moodle\_cookie('');
 
-`            `set\_moodle\_cookie('');
+} else {
 
-`        `} else {
+set\_moodle\_cookie($USER->username);
 
-`            `set\_moodle\_cookie($USER->username);
+}
 
-`        `}
-
-`        `$urltogo = core\_login\_get\_return\_url();
-
+$urltogo = core\_login\_get\_return\_url();
+```
 ![](docs/image.003.png)
 
 queste righe di codice le trovi anche nel file login/index.php in allegato
