@@ -1,0 +1,3 @@
+[submodule "moosh"]
+	path = moosh
+	url = git://github.com/tmuras/moosh.git
