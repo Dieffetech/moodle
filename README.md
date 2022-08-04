@@ -18,22 +18,20 @@ Che vanno sostituite con queste:
 
 if (!empty($CFG->nolastloggedin)) {
 
-// do not store last logged in user in cookie
+    // do not store last logged in user in cookie
 
-// auth plugins can temporarily override this from loginpage\_hook()
+    // auth plugins can temporarily override this from loginpage\_hook()
 
-// do not save $CFG->nolastloggedin in database!
+    // do not save $CFG->nolastloggedin in database!
 
 } else if (empty($CFG->rememberusername) or ($CFG->rememberusername == 2 and empty($frm->rememberusername))) {
 
-// no permanent cookies, delete old one if exists
+    // no permanent cookies, delete old one if exists
 
-set\_moodle\_cookie('');
-
+    set\_moodle\_cookie('');
 } else {
 
-set\_moodle\_cookie($USER->username);
-
+    set\_moodle\_cookie($USER->username);
 }
 
 $urltogo = core\_login\_get\_return\_url();
