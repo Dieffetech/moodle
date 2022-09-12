@@ -1501,30 +1501,22 @@ function scorm_delete_responses($attemptids, $scorm)
  *
  * @return bool true suceeded
  */
-function scorm_delete_attempt($userid, $scorm, $attemptid = 0)
+function scorm_delete_attempt($userid, $scorm, $attempt = 0)
 {
     global $DB;
 
-    if ($attemptid) {
-        $DB->delete_records('scorm_scoes_track', array('userid' => $userid, 'scormid' => $scorm->id, 'attempt' => $attemptid));
+    if ($attempt) {
+        $DB->delete_records('scorm_scoes_track', array('userid' => $userid, 'scormid' => $scorm->id, 'attempt' => $attempt));
     } else {
         $DB->delete_records('scorm_scoes_track', array('userid' => $userid, 'scormid' => $scorm->id));
     }
     $cm = get_coursemodule_from_instance('scorm', $scorm->id);
 
-    if ($attemptid) {
-        $params = array(
-            'other' => array('attemptid' => $attemptid),
-            'context' => context_module::instance($cm->id),
-            'relateduserid' => $userid
-        );
-    } else {
-        $params = array(
-            'other' => array('attemptid' => 0),
-            'context' => context_module::instance($cm->id),
-            'relateduserid' => $userid
-        );
-    }
+    $params = array(
+        'other' => ['attempt' => $attempt],
+        'context' => context_module::instance($cm->id),
+        'relateduserid' => $userid
+    );
 
     // Trigger instances list viewed event.
     $event = \mod_scorm\event\attempt_deleted::create($params);

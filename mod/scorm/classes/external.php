@@ -679,7 +679,7 @@ class mod_scorm_external extends external_api
 
         $result = array();
         $result['data']['attempt'] = $params['attempt'];
-        $result['data']['success'] = scorm_delete_attempt($params['userid'], $scorm);
+        $result['data']['success'] = scorm_delete_attempt($params['userid'], $scorm, $attempt);
 
         return $result;
     }

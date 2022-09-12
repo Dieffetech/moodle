@@ -382,5 +382,14 @@ A questo punto sono pronto per l’aggiornamento.
 - Se tutto ok rimuovere le cartelle di backup
 
 
+# Query Moodle new endpoint
 
+```
+INSERT INTO moodle2.mdl_external_functions (name,classname,methodname,classpath,component,capabilities,services) VALUES
+('mod_scorm_delete_all_scorm_sco_tracks','mod_scorm_external','delete_all_scorm_sco_tracks',NULL,'mod_scorm','','moodle_mobile_app');
+```
+```
+INSERT INTO moodle2.mdl_external_services_functions (externalserviceid,functionname) VALUES
+(2,'mod_scorm_delete_all_scorm_sco_tracks');
+```
 
