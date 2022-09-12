@@ -623,31 +623,41 @@ class mod_scorm_external extends external_api
         return $result;
     }
 
+
+    /**
+     * Describes the parameters for get_scorm_sco_tracks.
+     *
+     * @return external_function_parameters
+     * @since Moodle 3.0
+     */
+    public static function delete_all_scorm_sco_tracks_parameters()
+    {
+        return new external_function_parameters(
+            array(
+                'scormid' => new external_value(PARAM_INT, 'scorm instance id'),
+                'userid' => new external_value(PARAM_INT, 'user id'),
+                'attempt' => new external_value(PARAM_INT, 'attempt number (0 for last attempt)', VALUE_DEFAULT, 0)
+            )
+        );
+    }
+
     /**
      * Delete all SCO tracking data for the given user id
      *
-     * @param int $scoid the sco id
+     * @param int $scormid the sco id
      * @param int $userid the user id
      * @param int $attempt the attempt number
      * @return array warnings and the scoes data
      * @since Moodle 3.0
      */
-    public static function delete_all_scorm_sco_tracks($scoid, $userid, $attempt = 0)
+    public static function delete_all_scorm_sco_tracks($scormid, $userid, $attempt = 0)
     {
         global $USER, $DB;
 
-        $params = self::validate_parameters(self::get_scorm_sco_tracks_parameters(),
-            array('scoid' => $scoid, 'userid' => $userid, 'attempt' => $attempt));
+        $params = self::validate_parameters(self::delete_all_scorm_sco_tracks_parameters(),
+            array('scormid' => $scormid, 'userid' => $userid, 'attempt' => $attempt));
 
-        $tracks = array();
-        $warnings = array();
-
-        $sco = scorm_get_sco($params['scoid'], SCO_ONLY);
-        if (!$sco) {
-            throw new moodle_exception('cannotfindsco', 'scorm');
-        }
-
-        $scorm = $DB->get_record('scorm', array('id' => $sco->scorm), '*', MUST_EXIST);
+        $scorm = $DB->get_record('scorm', array('id' => $scormid), '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('scorm', $scorm->id);
 
         $context = context_module::instance($cm->id);
@@ -667,40 +677,9 @@ class mod_scorm_external extends external_api
             $params['attempt'] = scorm_get_last_attempt($scorm->id, $user->id);
         }
 
-        $attempted = false;
-        if ($scormtracks = scorm_get_tracks($sco->id, $params['userid'], $params['attempt'])) {
-            // Check if attempted.
-            if ($scormtracks->status != '') {
-                $attempted = true;
-                foreach ($scormtracks as $element => $value) {
-                    $tracks[] = array(
-                        'element' => $element,
-                        'value' => $value,
-                    );
-                }
-            }
-        }
-
-        if (!$attempted) {
-            $warnings[] = array(
-                'item' => 'attempt',
-                'itemid' => $params['attempt'],
-                'warningcode' => 'notattempted',
-                'message' => get_string('notattempted', 'scorm')
-            );
-        }
-
         $result = array();
         $result['data']['attempt'] = $params['attempt'];
-        $result['data']['tracks'] = $tracks;
-
-        if ($tracks) {
-            $result['data']['success'] = scorm_delete_attempt($params['userid'], $scorm);
-        } else {
-            $result['data']['success'] = true;
-        }
-
-        $result['warnings'] = $warnings;
+        $result['data']['success'] = scorm_delete_attempt($params['userid'], $scorm);
 
         return $result;
     }
