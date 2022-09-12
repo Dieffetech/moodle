@@ -1513,7 +1513,7 @@ function scorm_delete_attempt($userid, $scorm, $attempt = 0)
     $cm = get_coursemodule_from_instance('scorm', $scorm->id);
 
     $params = array(
-        'other' => ['attempt' => $attempt],
+        'other' => ['attemptid' => $attempt],
         'context' => context_module::instance($cm->id),
         'relateduserid' => $userid
     );
