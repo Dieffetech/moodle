@@ -685,6 +685,26 @@ class mod_scorm_external extends external_api
     }
 
     /**
+     * Describes the delete_all_scorm_sco_tracks return value.
+     *
+     * @return external_single_structure
+     * @since Moodle 3.0
+     */
+    public static function delete_all_scorm_sco_tracks_returns()
+    {
+        return new external_single_structure(
+            array(
+                'data' => new external_single_structure(
+                    array(
+                        'attempt' => new external_value(PARAM_INT, 'Attempt number'),
+                        'success' => new external_value(PARAM_BOOL, 'Deleted'),
+                    ), 'Deleted Scorm data track user'
+                ),
+            )
+        );
+    }
+
+    /**
      * Describes the get_scorm_sco_tracks return value.
      *
      * @return external_single_structure
@@ -692,7 +712,6 @@ class mod_scorm_external extends external_api
      */
     public static function get_scorm_sco_tracks_returns()
     {
-
         return new external_single_structure(
             array(
                 'data' => new external_single_structure(
