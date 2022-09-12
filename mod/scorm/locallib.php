@@ -1520,6 +1520,7 @@ function scorm_delete_attempt($userid, $scorm, $attemptid = 0)
         );
     } else {
         $params = array(
+            'other' => array('attemptid' => 0),
             'context' => context_module::instance($cm->id),
             'relateduserid' => $userid
         );
