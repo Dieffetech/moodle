@@ -218,7 +218,7 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
             // auth plugins can temporarily override this from loginpage_hook()
             // do not save $CFG->nolastloggedin in database!
 
-        } else if (empty($CFG->rememberusername)) {
+        } else if (empty($CFG->rememberusername) or ($CFG->rememberusername == 2 and empty($frm->rememberusername))) {
             // no permanent cookies, delete old one if exists
             set_moodle_cookie('');
 
@@ -227,6 +227,7 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
         }
 
         $urltogo = core_login_get_return_url();
+
 
     /// check if user password has expired
     /// Currently supported only for ldap-authentication module
@@ -273,7 +274,16 @@ if ($frm and isset($frm->username)) {                             // Login WITH 
 
         // test the session actually works by redirecting to self
         $SESSION->wantsurl = $urltogo;
-        redirect(new moodle_url(get_login_url(), array('testsession'=>$USER->id)));
+
+        if(!empty($_REQUEST['scoid']))
+        {
+
+         redirect(new moodle_url('/mod/scorm/player.php?display=popup&scoid='.$_REQUEST['scoid'].'&a='.$_REQUEST['cm']));
+        }
+        else
+        {
+          redirect(new moodle_url(get_login_url(), array('testsession'=>$USER->id)));
+        }
 
     } else {
         if (empty($errormsg)) {
@@ -366,17 +376,84 @@ $PAGE->set_heading("$site->fullname");
 
 echo $OUTPUT->header();
 
-if (isloggedin() and !isguestuser()) {
-    // prevent logging when already logged in, we do not want them to relogin by accident because sesskey would be changed
-    echo $OUTPUT->box_start();
-    $logout = new single_button(new moodle_url('/login/logout.php', array('sesskey'=>sesskey(),'loginpage'=>1)), get_string('logout'), 'post');
-    $continue = new single_button(new moodle_url('/'), get_string('cancel'), 'get');
-    echo $OUTPUT->confirm(get_string('alreadyloggedin', 'error', fullname($USER)), $logout, $continue);
-    echo $OUTPUT->box_end();
-} else {
-    $loginform = new \core_auth\output\login($authsequence, $frm->username);
-    $loginform->set_error($errormsg);
-    echo $OUTPUT->render($loginform);
+if(!empty($_REQUEST['hash']))
+{
+    if (isloggedin() and !isguestuser()) {
+
+        // prevent logging when already logged in, we do not want them to relogin by accident because sesskey would be changed
+
+        $logout = new moodle_url('/login/logout.php', array('sesskey'=>sesskey(),'loginpage'=>1,'hash'=>$_REQUEST['hash']));
+        redirect($logout);
+
+
+
+    } else {
+        $loginform = new \core_auth\output\login($authsequence, $frm->username);
+        $loginform->set_error($errormsg);
+        echo $OUTPUT->render($loginform);
+    }
+}
+else
+{
+    if (isloggedin() and !isguestuser()) {
+
+        // prevent logging when already logged in, we do not want them to relogin by accident because sesskey would be changed
+        echo $OUTPUT->box_start();
+        $logout = new single_button(new moodle_url('/login/logout.php', array('sesskey'=>sesskey(),'loginpage'=>1)), get_string('logout'), 'post');
+        $continue = new single_button(new moodle_url('/'), get_string('cancel'), 'get');
+        echo $OUTPUT->confirm(get_string('alreadyloggedin', 'error', fullname($USER)), $logout, $continue);
+        echo $OUTPUT->box_end();
+    } else {
+        $loginform = new \core_auth\output\login($authsequence, $frm->username);
+        $loginform->set_error($errormsg);
+        echo $OUTPUT->render($loginform);
+    }
 }
 
-echo $OUTPUT->footer();
+
+if(!empty($_REQUEST['hash']))
+{
+
+    parse_str(base64_decode(urldecode($_REQUEST['hash'])), $request_array);
+
+    ?>
+    <style>
+        #region-main{display:none;}
+    </style>
+    <script>
+       document.getElementById('login').autocomplete = "off";
+       document.getElementById('username').value = "<?php echo $request_array['username']?>";
+       document.getElementById('password').value = "<?php echo $request_array['password']?>";
+
+       document.getElementById('username').type="text";
+       document.getElementById('password').type="text";
+
+       document.getElementById('username').autocomplete= "off";
+       document.getElementById('password').autocomplete= "off";
+
+       document.getElementById('username').readOnly = true;
+       document.getElementById('password').readOnly = true;
+
+       var scoid = document.createElement("input");
+       scoid.setAttribute("type", "hidden");
+       scoid.setAttribute("name", "scoid");
+       scoid.setAttribute("value", "<?php echo $request_array['scoid']?>");
+       document.getElementById("login").appendChild(scoid);
+
+       var cm = document.createElement("input");
+       cm.setAttribute("type", "hidden");
+       cm.setAttribute("name", "cm");
+       cm.setAttribute("value", "<?php echo $request_array['cm']?>");
+       document.getElementById("login").appendChild(cm);
+       document.getElementById('login').submit();
+    </script>
+    <?php
+}
+
+?>
+<script>
+    document.getElementById('login').autocomplete = "off";
+</script>
+
+<?php
+//echo $OUTPUT->footer();

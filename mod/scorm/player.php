@@ -25,6 +25,15 @@ $a = optional_param('a', '', PARAM_INT);                            // scorm ID
 $scoid = required_param('scoid', PARAM_INT);                        // sco ID
 $mode = optional_param('mode', 'normal', PARAM_ALPHA);              // navigation mode
 $currentorg = optional_param('currentorg', '', PARAM_RAW);          // selected organization
+$scoes = $DB->get_records_select('scorm_scoes', 'scorm = ? AND '.
+        $DB->sql_isnotempty('scorm_scoes', 'launch', false, true), array($scorm->id), 'sortorder, id', 'id');
+
+if (($sco->organization == '') && ($sco->launch == '')) {
+    $currentorg = $sco->identifier;
+} else {
+    $currentorg = $sco->organization;
+}
+
 $newattempt = optional_param('newattempt', 'off', PARAM_ALPHA);     // the user request to start a new attempt.
 $displaymode = optional_param('display', '', PARAM_ALPHA);
 
@@ -300,3 +309,22 @@ echo $OUTPUT->footer();
 
 // Set the start time of this SCO.
 scorm_insert_track($USER->id, $scorm->id, $scoid, $attempt, 'x.start.time', time());
+
+?>
+<style>
+    #scorm_toc{
+        display: none !important;
+    }
+    #scorm_toc_toggle{
+        display: none !important;
+    }
+    #page-content h2{
+        display: none !important;
+    }
+    #page-mod-scorm-player #scormpage div.yui3-u-3-4 {
+        width: 100% !important;
+    }
+    #scorm_nav{
+        display: none !important;
+    }
+</style>

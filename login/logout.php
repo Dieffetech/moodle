@@ -39,6 +39,17 @@ if ($login) {
     $redirect = $CFG->wwwroot.'/';
 }
 
+// DIEFFE CUSTOM LOGOUT START
+if(!empty($_REQUEST['hash']))
+{
+
+    $redirect = new moodle_url('/login/index.php', array('hash'=>$_REQUEST['hash']));
+    require_logout();
+
+    redirect($redirect);
+}
+// DIEFFE CUSTOM LOGOUT EDN
+
 if (!isloggedin()) {
     // no confirmation, user has already logged out
     require_logout();

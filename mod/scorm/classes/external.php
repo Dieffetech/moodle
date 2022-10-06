@@ -39,7 +39,8 @@ require_once($CFG->dirroot . '/mod/scorm/locallib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @since      Moodle 3.0
  */
-class mod_scorm_external extends external_api {
+class mod_scorm_external extends external_api
+{
 
     /**
      * Returns description of method parameters
@@ -47,7 +48,8 @@ class mod_scorm_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.0
      */
-    public static function view_scorm_parameters() {
+    public static function view_scorm_parameters()
+    {
         return new external_function_parameters(
             array(
                 'scormid' => new external_value(PARAM_INT, 'scorm instance id')
@@ -60,17 +62,18 @@ class mod_scorm_external extends external_api {
      *
      * @param int $scormid the scorm instance id
      * @return array of warnings and status result
-     * @since Moodle 3.0
      * @throws moodle_exception
+     * @since Moodle 3.0
      */
-    public static function view_scorm($scormid) {
+    public static function view_scorm($scormid)
+    {
         global $DB, $CFG;
         require_once($CFG->dirroot . '/mod/scorm/lib.php');
 
         $params = self::validate_parameters(self::view_scorm_parameters(),
-                                            array(
-                                                'scormid' => $scormid
-                                            ));
+            array(
+                'scormid' => $scormid
+            ));
         $warnings = array();
 
         // Request and permission validation.
@@ -95,7 +98,8 @@ class mod_scorm_external extends external_api {
      * @return external_description
      * @since Moodle 3.0
      */
-    public static function view_scorm_returns() {
+    public static function view_scorm_returns()
+    {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_BOOL, 'status: true if success'),
@@ -110,14 +114,15 @@ class mod_scorm_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.0
      */
-    public static function get_scorm_attempt_count_parameters() {
+    public static function get_scorm_attempt_count_parameters()
+    {
         return new external_function_parameters(
             array(
                 'scormid' => new external_value(PARAM_INT, 'SCORM instance id'),
                 'userid' => new external_value(PARAM_INT, 'User id'),
                 'ignoremissingcompletion' => new external_value(PARAM_BOOL,
-                                                'Ignores attempts that haven\'t reported a grade/completion',
-                                                VALUE_DEFAULT, false),
+                    'Ignores attempts that haven\'t reported a grade/completion',
+                    VALUE_DEFAULT, false),
             )
         );
     }
@@ -131,12 +136,13 @@ class mod_scorm_external extends external_api {
      * @return array of warnings and the attempts count
      * @since Moodle 3.0
      */
-    public static function get_scorm_attempt_count($scormid, $userid, $ignoremissingcompletion = false) {
+    public static function get_scorm_attempt_count($scormid, $userid, $ignoremissingcompletion = false)
+    {
         global $USER, $DB;
 
         $params = self::validate_parameters(self::get_scorm_attempt_count_parameters(),
-                                            array('scormid' => $scormid, 'userid' => $userid,
-                                                'ignoremissingcompletion' => $ignoremissingcompletion));
+            array('scormid' => $scormid, 'userid' => $userid,
+                'ignoremissingcompletion' => $ignoremissingcompletion));
 
         $attempts = array();
         $warnings = array();
@@ -172,7 +178,8 @@ class mod_scorm_external extends external_api {
      * @return external_single_structure
      * @since Moodle 3.0
      */
-    public static function get_scorm_attempt_count_returns() {
+    public static function get_scorm_attempt_count_returns()
+    {
 
         return new external_single_structure(
             array(
@@ -188,7 +195,8 @@ class mod_scorm_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.0
      */
-    public static function get_scorm_scoes_parameters() {
+    public static function get_scorm_scoes_parameters()
+    {
         return new external_function_parameters(
             array(
                 'scormid' => new external_value(PARAM_INT, 'scorm instance id'),
@@ -205,11 +213,12 @@ class mod_scorm_external extends external_api {
      * @return array warnings and the scoes data
      * @since Moodle 3.0
      */
-    public static function get_scorm_scoes($scormid, $organization = '') {
+    public static function get_scorm_scoes($scormid, $organization = '')
+    {
         global $DB;
 
         $params = self::validate_parameters(self::get_scorm_scoes_parameters(),
-                                            array('scormid' => $scormid, 'organization' => $organization));
+            array('scormid' => $scormid, 'organization' => $organization));
 
         $scoes = array();
         $warnings = array();
@@ -255,7 +264,8 @@ class mod_scorm_external extends external_api {
      * @return external_single_structure
      * @since Moodle 3.0
      */
-    public static function get_scorm_scoes_returns() {
+    public static function get_scorm_scoes_returns()
+    {
 
         return new external_single_structure(
             array(
@@ -294,7 +304,8 @@ class mod_scorm_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.0
      */
-    public static function get_scorm_user_data_parameters() {
+    public static function get_scorm_user_data_parameters()
+    {
         return new external_function_parameters(
             array(
                 'scormid' => new external_value(PARAM_INT, 'scorm instance id'),
@@ -312,11 +323,12 @@ class mod_scorm_external extends external_api {
      * @throws  moodle_exception
      * @since Moodle 3.0
      */
-    public static function get_scorm_user_data($scormid, $attempt) {
+    public static function get_scorm_user_data($scormid, $attempt)
+    {
         global $CFG, $DB;
 
         $params = self::validate_parameters(self::get_scorm_user_data_parameters(),
-                                            array('scormid' => $scormid, 'attempt' => $attempt));
+            array('scormid' => $scormid, 'attempt' => $attempt));
 
         $data = array();
         $warnings = array();
@@ -330,10 +342,10 @@ class mod_scorm_external extends external_api {
         scorm_require_available($scorm, true, $context);
 
         $scorm->version = strtolower(clean_param($scorm->version, PARAM_SAFEDIR));
-        if (!file_exists($CFG->dirroot.'/mod/scorm/datamodels/'.$scorm->version.'lib.php')) {
+        if (!file_exists($CFG->dirroot . '/mod/scorm/datamodels/' . $scorm->version . 'lib.php')) {
             $scorm->version = 'scorm_12';
         }
-        require_once($CFG->dirroot.'/mod/scorm/datamodels/'.$scorm->version.'lib.php');
+        require_once($CFG->dirroot . '/mod/scorm/datamodels/' . $scorm->version . 'lib.php');
 
         if ($scoes = scorm_get_scoes($scorm->id)) {
             $def = new stdClass();
@@ -348,7 +360,7 @@ class mod_scorm_external extends external_api {
                 $userdata = array();
                 $defaultdata = array();
 
-                foreach ((array) $user->{$sco->id} as $key => $val) {
+                foreach ((array)$user->{$sco->id} as $key => $val) {
                     $userdata[] = array(
                         'element' => $key,
                         'value' => $val
@@ -381,7 +393,8 @@ class mod_scorm_external extends external_api {
      * @return external_single_structure
      * @since Moodle 3.0
      */
-    public static function get_scorm_user_data_returns() {
+    public static function get_scorm_user_data_returns()
+    {
 
         return new external_single_structure(
             array(
@@ -390,21 +403,21 @@ class mod_scorm_external extends external_api {
                         array(
                             'scoid' => new external_value(PARAM_INT, 'sco id'),
                             'userdata' => new external_multiple_structure(
-                                            new external_single_structure(
-                                                array(
-                                                    'element' => new external_value(PARAM_RAW, 'element name'),
-                                                    'value' => new external_value(PARAM_RAW, 'element value')
-                                                )
-                                            )
-                                          ),
+                                new external_single_structure(
+                                    array(
+                                        'element' => new external_value(PARAM_RAW, 'element name'),
+                                        'value' => new external_value(PARAM_RAW, 'element value')
+                                    )
+                                )
+                            ),
                             'defaultdata' => new external_multiple_structure(
-                                                new external_single_structure(
-                                                    array(
-                                                        'element' => new external_value(PARAM_RAW, 'element name'),
-                                                        'value' => new external_value(PARAM_RAW, 'element value')
-                                                    )
-                                                )
-                                             ),
+                                new external_single_structure(
+                                    array(
+                                        'element' => new external_value(PARAM_RAW, 'element name'),
+                                        'value' => new external_value(PARAM_RAW, 'element value')
+                                    )
+                                )
+                            ),
                         ), 'SCO data'
                     )
                 ),
@@ -419,7 +432,8 @@ class mod_scorm_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.0
      */
-    public static function insert_scorm_tracks_parameters() {
+    public static function insert_scorm_tracks_parameters()
+    {
         return new external_function_parameters(
             array(
                 'scoid' => new external_value(PARAM_INT, 'SCO id'),
@@ -448,11 +462,12 @@ class mod_scorm_external extends external_api {
      * @throws moodle_exception
      * @since Moodle 3.0
      */
-    public static function insert_scorm_tracks($scoid, $attempt, $tracks) {
+    public static function insert_scorm_tracks($scoid, $attempt, $tracks)
+    {
         global $USER, $DB;
 
         $params = self::validate_parameters(self::insert_scorm_tracks_parameters(),
-                                            array('scoid' => $scoid, 'attempt' => $attempt, 'tracks' => $tracks));
+            array('scoid' => $scoid, 'attempt' => $attempt, 'tracks' => $tracks));
 
         $trackids = array();
         $warnings = array();
@@ -478,7 +493,7 @@ class mod_scorm_external extends external_api {
             $element = $track['element'];
             $value = $track['value'];
             $trackid = scorm_insert_track($USER->id, $scorm->id, $sco->id, $params['attempt'], $element, $value,
-                                            $scorm->forcecompleted);
+                $scorm->forcecompleted);
 
             if ($trackid) {
                 $trackids[] = $trackid;
@@ -504,7 +519,8 @@ class mod_scorm_external extends external_api {
      * @return external_single_structure
      * @since Moodle 3.0
      */
-    public static function insert_scorm_tracks_returns() {
+    public static function insert_scorm_tracks_returns()
+    {
 
         return new external_single_structure(
             array(
@@ -520,7 +536,8 @@ class mod_scorm_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.0
      */
-    public static function get_scorm_sco_tracks_parameters() {
+    public static function get_scorm_sco_tracks_parameters()
+    {
         return new external_function_parameters(
             array(
                 'scoid' => new external_value(PARAM_INT, 'sco id'),
@@ -539,11 +556,12 @@ class mod_scorm_external extends external_api {
      * @return array warnings and the scoes data
      * @since Moodle 3.0
      */
-    public static function get_scorm_sco_tracks($scoid, $userid, $attempt = 0) {
+    public static function get_scorm_sco_tracks($scoid, $userid, $attempt = 0)
+    {
         global $USER, $DB;
 
         $params = self::validate_parameters(self::get_scorm_sco_tracks_parameters(),
-                                            array('scoid' => $scoid, 'userid' => $userid, 'attempt' => $attempt));
+            array('scoid' => $scoid, 'userid' => $userid, 'attempt' => $attempt));
 
         $tracks = array();
         $warnings = array();
@@ -603,14 +621,95 @@ class mod_scorm_external extends external_api {
         return $result;
     }
 
+
+    /**
+     * Describes the parameters for get_scorm_sco_tracks.
+     *
+     * @return external_function_parameters
+     * @since Moodle 3.0
+     */
+    public static function delete_all_scorm_sco_tracks_parameters()
+    {
+        return new external_function_parameters(
+            array(
+                'scormid' => new external_value(PARAM_INT, 'scorm instance id'),
+                'userid' => new external_value(PARAM_INT, 'user id'),
+                'attempt' => new external_value(PARAM_INT, 'attempt number (0 for last attempt)', VALUE_DEFAULT, 0)
+            )
+        );
+    }
+
+    /**
+     * Delete all SCO tracking data for the given user id
+     *
+     * @param int $scormid the sco id
+     * @param int $userid the user id
+     * @param int $attempt the attempt number
+     * @return array warnings and the scoes data
+     * @since Moodle 3.0
+     */
+    public static function delete_all_scorm_sco_tracks($scormid, $userid, $attempt = 0)
+    {
+        global $USER, $DB;
+
+        $params = self::validate_parameters(self::delete_all_scorm_sco_tracks_parameters(),
+            array('scormid' => $scormid, 'userid' => $userid, 'attempt' => $attempt));
+
+        $scorm = $DB->get_record('scorm', array('id' => $scormid), '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('scorm', $scorm->id);
+
+        $context = context_module::instance($cm->id);
+        self::validate_context($context);
+
+        $user = core_user::get_user($params['userid'], '*', MUST_EXIST);
+        core_user::require_active_user($user);
+
+        // Extra checks so only users with permissions can view other users attempts.
+        if ($USER->id != $user->id) {
+            require_capability('mod/scorm:viewreport', $context);
+        }
+
+        scorm_require_available($scorm, true, $context);
+
+        if (empty($params['attempt'])) {
+            $params['attempt'] = scorm_get_last_attempt($scorm->id, $user->id);
+        }
+
+        $result = array();
+        $result['data']['attempt'] = $params['attempt'];
+        $result['data']['success'] = scorm_delete_attempt($params['userid'], $scorm, $attempt);
+
+        return $result;
+    }
+
+    /**
+     * Describes the delete_all_scorm_sco_tracks return value.
+     *
+     * @return external_single_structure
+     * @since Moodle 3.0
+     */
+    public static function delete_all_scorm_sco_tracks_returns()
+    {
+        return new external_single_structure(
+            array(
+                'data' => new external_single_structure(
+                    array(
+                        'attempt' => new external_value(PARAM_INT, 'Attempt number'),
+                        'success' => new external_value(PARAM_BOOL, 'Deleted'),
+                    ), 'Deleted Scorm data track user'
+                ),
+            )
+        );
+    }
+
     /**
      * Describes the get_scorm_sco_tracks return value.
      *
      * @return external_single_structure
      * @since Moodle 3.0
      */
-    public static function get_scorm_sco_tracks_returns() {
-
+    public static function get_scorm_sco_tracks_returns()
+    {
         return new external_single_structure(
             array(
                 'data' => new external_single_structure(
@@ -637,7 +736,8 @@ class mod_scorm_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.0
      */
-    public static function get_scorms_by_courses_parameters() {
+    public static function get_scorms_by_courses_parameters()
+    {
         return new external_function_parameters (
             array(
                 'courseids' => new external_multiple_structure(
@@ -655,7 +755,8 @@ class mod_scorm_external extends external_api {
      * @return array the scorm details
      * @since Moodle 3.0
      */
-    public static function get_scorms_by_courses($courseids = array()) {
+    public static function get_scorms_by_courses($courseids = array())
+    {
         global $CFG;
 
         $returnedscorms = array();
@@ -716,17 +817,17 @@ class mod_scorm_external extends external_api {
                             $module['packagesize'] = $packagefile->get_filesize();
                             // Download URL.
                             $module['packageurl'] = moodle_url::make_webservice_pluginfile_url(
-                                                    $context->id, 'mod_scorm', 'package', 0, '/', $scorm->reference)->out(false);
+                                $context->id, 'mod_scorm', 'package', 0, '/', $scorm->reference)->out(false);
                         }
                     }
 
                     $module['protectpackagedownloads'] = get_config('scorm', 'protectpackagedownloads');
 
                     $viewablefields = array('version', 'maxgrade', 'grademethod', 'whatgrade', 'maxattempt', 'forcecompleted',
-                                            'forcenewattempt', 'lastattemptlock', 'displayattemptstatus', 'displaycoursestructure',
-                                            'sha1hash', 'md5hash', 'revision', 'launch', 'skipview', 'hidebrowse', 'hidetoc', 'nav',
-                                            'navpositionleft', 'navpositiontop', 'auto', 'popup', 'width', 'height', 'timeopen',
-                                            'timeclose', 'scormtype', 'reference');
+                        'forcenewattempt', 'lastattemptlock', 'displayattemptstatus', 'displaycoursestructure',
+                        'sha1hash', 'md5hash', 'revision', 'launch', 'skipview', 'hidebrowse', 'hidetoc', 'nav',
+                        'navpositionleft', 'navpositiontop', 'auto', 'popup', 'width', 'height', 'timeopen',
+                        'timeclose', 'scormtype', 'reference');
 
                     // Check additional permissions for returning optional private settings.
                     if (has_capability('moodle/course:manageactivities', $context)) {
@@ -839,7 +940,8 @@ class mod_scorm_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.1
      */
-    public static function launch_sco_parameters() {
+    public static function launch_sco_parameters()
+    {
         return new external_function_parameters(
             array(
                 'scormid' => new external_value(PARAM_INT, 'SCORM instance id'),
@@ -856,17 +958,19 @@ class mod_scorm_external extends external_api {
      * @return array of warnings and status result
      * @since Moodle 3.1
      * @throws moodle_exception
+     * @since Moodle 3.1
      */
-    public static function launch_sco($scormid, $scoid = 0) {
+    public static function launch_sco($scormid, $scoid = 0)
+    {
         global $DB, $CFG;
 
         require_once($CFG->libdir . '/completionlib.php');
 
         $params = self::validate_parameters(self::launch_sco_parameters(),
-                                            array(
-                                                'scormid' => $scormid,
-                                                'scoid' => $scoid
-                                            ));
+            array(
+                'scormid' => $scormid,
+                'scoid' => $scoid
+            ));
         $warnings = array();
 
         // Request and permission validation.
@@ -903,7 +1007,8 @@ class mod_scorm_external extends external_api {
      * @return external_description
      * @since Moodle 3.1
      */
-    public static function launch_sco_returns() {
+    public static function launch_sco_returns()
+    {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_BOOL, 'status: true if success'),
@@ -918,7 +1023,8 @@ class mod_scorm_external extends external_api {
      * @return external_external_function_parameters
      * @since Moodle 3.7
      */
-    public static function get_scorm_access_information_parameters() {
+    public static function get_scorm_access_information_parameters()
+    {
         return new external_function_parameters (
             array(
                 'scormid' => new external_value(PARAM_INT, 'scorm instance id.')
@@ -931,10 +1037,11 @@ class mod_scorm_external extends external_api {
      *
      * @param int $scormid scorm instance id
      * @return array of warnings and the access information
-     * @since Moodle 3.7
      * @throws  moodle_exception
+     * @since Moodle 3.7
      */
-    public static function get_scorm_access_information($scormid) {
+    public static function get_scorm_access_information($scormid)
+    {
         global $DB;
 
         $params = self::validate_parameters(self::get_scorm_access_information_parameters(), array('scormid' => $scormid));
@@ -965,7 +1072,8 @@ class mod_scorm_external extends external_api {
      * @return external_single_structure
      * @since Moodle 3.7
      */
-    public static function get_scorm_access_information_returns() {
+    public static function get_scorm_access_information_returns()
+    {
 
         $structure = array(
             'warnings' => new external_warnings()
