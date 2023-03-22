@@ -84,7 +84,7 @@ class attempt_deleted extends \core\event\base {
      */
     protected function get_legacy_logdata() {
         return array($this->courseid, 'scorm', 'delete attempts', 'report.php?id=' . $this->contextinstanceid,
-                $this->other['attemptid'], $this->contextinstanceid);
+                $this->other['attemptid'] ?? 0, $this->contextinstanceid);
     }
 
     /**
@@ -95,10 +95,6 @@ class attempt_deleted extends \core\event\base {
      */
     protected function validate_data() {
         parent::validate_data();
-
-        if (empty($this->other['attemptid'])) {
-            throw new \coding_exception('The \'attemptid\' must be set in other.');
-        }
     }
 
     public static function get_other_mapping() {
