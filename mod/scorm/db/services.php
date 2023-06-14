@@ -83,6 +83,15 @@ $functions = array(
         'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
     ),
 
+    'mod_scorm_delete_all_scorm_sco_tracks' => array(
+        'classname' => 'mod_scorm_external',
+        'methodname' => 'delete_all_scorm_sco_tracks',
+        'description' => 'Delete all SCO tracking data for the given user id and attempt number',
+        'type' => 'write',
+        'capabilities' => '',
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
+    ),
+
     'mod_scorm_get_scorms_by_courses' => array(
         'classname'     => 'mod_scorm_external',
         'methodname'    => 'get_scorms_by_courses',
