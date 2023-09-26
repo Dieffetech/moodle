@@ -1,3 +1,4 @@
 [submodule "moosh"]
 	path = moosh
-	url = git://github.com/tmuras/moosh.git
+	url = https://github.com/tmuras/moosh.git
+	branch = master

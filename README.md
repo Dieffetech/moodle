@@ -381,6 +381,44 @@ A questo punto sono pronto per l’aggiornamento.
 # Query Moodle new endpoint
 
 ```
+INSERT INTO lms_moodle.mdl_external_services (name,enabled,requiredcapability,restrictedusers,component,timecreated,timemodified,shortname,downloadfiles,uploadfiles) VALUES
+	 ('ws_yii',1,'',1,NULL,1695649128,NULL,'ws_yii',0,1);
+```
+```
+INSERT INTO mdl_external_services_functions (externalserviceid,functionname) VALUES
+	 (2,'core_completion_get_activities_completion_status'),
+	 (2,'core_completion_get_course_completion_status'),
+	 (2,'core_course_create_categories'),
+	 (2,'core_course_create_courses'),
+	 (2,'core_course_delete_categories'),
+	 (2,'core_course_delete_courses'),
+	 (2,'core_course_delete_modules'),
+	 (2,'core_course_get_contents'),
+	 (2,'core_course_get_course_module'),
+	 (2,'core_course_get_course_module_by_instance');
+INSERT INTO mdl_external_services_functions (externalserviceid,functionname) VALUES
+	 (2,'core_course_get_courses'),
+	 (2,'core_course_get_courses_by_field'),
+	 (2,'core_course_update_categories'),
+	 (2,'core_course_update_courses'),
+	 (2,'core_enrol_get_enrolled_users'),
+	 (2,'core_enrol_get_enrolled_users_with_capability'),
+	 (2,'core_files_upload'),
+	 (2,'core_user_create_users'),
+	 (2,'core_user_get_users'),
+	 (2,'core_user_get_users_by_field');
+INSERT INTO mdl_external_services_functions (externalserviceid,functionname) VALUES
+	 (2,'core_user_update_users'),
+	 (2,'enrol_manual_enrol_users'),
+	 (2,'mod_scorm_get_scorm_access_information'),
+	 (2,'mod_scorm_get_scorm_attempt_count'),
+	 (2,'mod_scorm_get_scorm_sco_tracks'),
+	 (2,'mod_scorm_get_scorm_scoes'),
+	 (2,'mod_scorm_get_scorm_user_data'),
+	 (2,'mod_scorm_get_scorms_by_courses');
+```
+
+```
 INSERT INTO moodle2.mdl_external_functions (name,classname,methodname,classpath,component,capabilities,services) VALUES
 ('mod_scorm_delete_all_scorm_sco_tracks','mod_scorm_external','delete_all_scorm_sco_tracks',NULL,'mod_scorm','','moodle_mobile_app');
 ```
@@ -388,4 +426,3 @@ INSERT INTO moodle2.mdl_external_functions (name,classname,methodname,classpath,
 INSERT INTO moodle2.mdl_external_services_functions (externalserviceid,functionname) VALUES
 (2,'mod_scorm_delete_all_scorm_sco_tracks');
 ```
-
