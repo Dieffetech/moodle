@@ -20,7 +20,7 @@ RewriteRule ^(.*)$ index.php [QSA,L]
    php_flag display_errors On
    php_value max_execution_time 600
    php_value max_input_time 600
-   php_value max_input_vars 1000
+   php_value max_input_vars 5000
    php_value memory_limit 500M
    php_value post_max_size 1G
    php_value session.gc_maxlifetime 14400
@@ -34,7 +34,7 @@ RewriteRule ^(.*)$ index.php [QSA,L]
    php_flag display_errors On
    php_value max_execution_time 600
    php_value max_input_time 600
-   php_value max_input_vars 1000
+   php_value max_input_vars 5000
    php_value memory_limit 500M
    php_value post_max_size 1G
    php_value session.gc_maxlifetime 14400
